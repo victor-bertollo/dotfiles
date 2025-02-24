@@ -1,5 +1,6 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR TERMINAL:alacritty
 SETUVAR --export XDG_MENU_PREFIX:plasma\x2d\x20kbuildsycoca6
 SETUVAR __fish_initialized:3400
 SETUVAR fish_color_autosuggestion:brblack

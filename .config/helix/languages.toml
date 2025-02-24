@@ -2,13 +2,34 @@
 name = "python"
 auto-format = true
 language-servers = [
-    "pylsp"
+    {name = "ruff"},
+    {name = "pylsp"}
 ]
 
-#[language-server.pylsp.config.pylsp]
-#plugins.ruff.enabled = true
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
 
-[language-server.pylsp.plugins.ruff]
-enabled = true
-formatEnabled = true
+[language-server.ruff.config.settings]
 lineLength = 100
+
+[[language]]
+name = "go"
+auto-format = true
+formatter = { command = "goimports" }
+
+[[language]]
+name = "cpp"
+auto-format = true
+formatter = {command = 'clang-format', args= ["--style=Google"]}
+indent = { tab-width = 4, unit = "    " }
+
+[language-server.emmet-ls]
+args = ["--stdio"]
+command="emmet-ls"
+
+[[language]]
+name = "html"
+language-servers = ["vscode-html-language-server", "emmet-ls"]
+formatter = { command = 'prettier', args = ["--parser", "html", "--tab-width", "4"] }
+auto-format = true

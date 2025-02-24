@@ -1,4 +1,4 @@
-theme = "onedark"
+theme = "nord"
 
 [editor]
 bufferline = "multiple"
@@ -10,3 +10,6 @@ git-ignore = false
 [keys.normal]
 C-h = ":buffer-previous"
 C-l = ":buffer-next"
+
+[keys.select]
+l ={l= ":pipe ~/.config/scripts/ll_helix.sh"}
