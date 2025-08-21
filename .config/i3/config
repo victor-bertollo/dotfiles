@@ -57,11 +57,11 @@ gaps inner 10
 # client.focused       #88c0d0 #0D0221 #c019c1 #ff0bff   #ff0bff
 # client.unfocused     #5e81ac #0D0221 #c019c1 #3E014E   #3E014E 
 # client.placeholder   #5e81ac #0D0221 #999999 #3E014E   #3E014E
-# client.focused_inactive #5e81ac #0D0221 #c019c1 #3E014E #3E014E
+client.focused_inactive #5e81ac #0D0221 #c019c1 #3E014E #3E014E
 
 # bind for flameshot
 bindsym Print exec --no-startup-id flameshot screen
-bindsym Shift+Print exec --no-startup-id flameshot gui
+bindsym $mod+Shift+S exec --no-startup-id flameshot gui
 
 
 # Use pactl to adjust volume in PulseAudio.
@@ -267,6 +267,7 @@ client.placeholder $overlay0 $base $text $overlay0 $overlay0
 # finds out, if available)
 bar {
         status_command i3status
+        font pango:DejaVu Sans Mono 12
 
         colors {
                 background #3b4252

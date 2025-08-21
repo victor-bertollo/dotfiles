@@ -5,6 +5,11 @@ language-servers = [
     {name = "ruff"},
     {name = "pylsp"}
 ]
+# language-servers = ["ty"]
+file-types = ["py", "ipynb"]
+comment-token = "#"
+shebangs = ["python"]
+roots = ["pyproject.toml", "setup.py", "poetry.lock", ".git", ".jj", ".venv/"]
 
 [language-server.ruff]
 command = "ruff"
@@ -13,10 +18,23 @@ args = ["server"]
 [language-server.ruff.config.settings]
 lineLength = 100
 
+# [language-server.ty]
+# command = "ty"
+# args = ["server"]
+
+# [language-server.ty.experimental.completions]
+# enable = true
+
 [[language]]
 name = "go"
 auto-format = true
 formatter = { command = "goimports" }
+
+[language-server.golangci-lint-lsp]
+command = "golangci-lint-langserver"
+
+[language-server.golangci-lint-lsp.config]
+command = ["golangci-lint", "run", "--output.json.path=stdout", "--show-stats=false", "--issues-exit-code=1"]
 
 [[language]]
 name = "cpp"
@@ -24,9 +42,19 @@ auto-format = true
 formatter = {command = 'clang-format', args= ["--style=Google"]}
 indent = { tab-width = 4, unit = "    " }
 
+# [[language]]
+# name = "java"
+# auto-format = true
+# formatter = {command = 'clang-format', args= ["--style=Google"]}
+# indent = { tab-width = 4, unit = "    " }
+
+[language-server.jdtls]
+command = "jdtls"
+args = ["--jvm-arg=-javaagent:/usr/share/java/lombok/lombok.jar"]
+
 [language-server.emmet-ls]
 args = ["--stdio"]
-command="emmet-ls"
+command="emmet-language-server"
 
 [[language]]
 name = "html"

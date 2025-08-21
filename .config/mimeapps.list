@@ -12,6 +12,12 @@ application/x-extension-xhtml=zen.desktop
 application/x-extension-xht=zen.desktop
 inode/directory=yazi.desktop
 x-scheme-handler/terminal=alacritty.desktop
+application/x-ms-dos-executable;application/x-wine-extension-msp;application/x-msi;application/x-msdos-program;text/win-bat;=PortProton.desktop
+x-scheme-handler/discord=vesktop.desktop
+x-scheme-handler/etcher=balenaEtcher.desktop
+json=helix.desktop
+txt=helix.desktop
+application/json=helix.desktop
 
 [Added Associations]
 x-scheme-handler/tonsite=org.telegram.desktop.desktop;
