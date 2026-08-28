@@ -1,6 +1,7 @@
-.venv
+.*venv
 __pycache__
 .gradle
 build
 bin
 node_modules
+.go*/

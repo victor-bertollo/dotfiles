@@ -1,0 +1,75 @@
+// ~/.config/waybar/config.jsonc
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 30,
+    "spacing": 4,
+
+    "modules-left":   ["hyprland/workspaces", "hyprland/submap"],
+    "modules-center": ["hyprland/window"],
+    "modules-right":  ["hyprland/language", "pulseaudio", "network", "battery", "clock", "tray"],
+
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "sort-by-number": true
+    },
+
+    "hyprland/submap": {
+        "format": "  {}",
+        "tooltip": false
+    },
+
+    "hyprland/window": {
+        "max-length": 60,
+        "separate-outputs": true
+    },
+
+    "hyprland/language": {
+        "format": "  {short}",
+        "on-click": "hyprctl switchxkblayout current next"
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    },
+    // Дата + время прямо в баре (как tztime %Y-%m-%d %H:%M в i3status)
+    "clock": {
+        "format": "{:%Y-%m-%d %H:%M}",
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "tooltip": false
+    },
+
+    // Заряд + оставшееся время сразу в баре, не в тултипе
+    "battery": {
+        "states": { "warning": 30, "critical": 15 },
+        "format": "{capacity}%  {time}",
+        "format-charging": "CHR {capacity}%  {time}",
+        "format-full": "{capacity}%",
+        "format-time": "{H}:{m}",
+        "format-icons": ["", "", "", "", ""],
+        "design-capacity": true,
+        "tooltip": false
+    },
+
+    // Подключён -> SSID/интерфейс + IP; нет связи -> "нет сети"
+    "network": {
+        "format-wifi": "{essid}  {ipaddr}",
+        "format-ethernet": "{ifname}  {ipaddr}",
+        "format-disconnected": "нет сети",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        // "on-click": "nm-connection-editor",
+        "tooltip": false
+    },
+
+    // Без звука -> значок мута (стиль делает его жёлтым)
+    "pulseaudio": {
+        "format": "{icon}  {volume}%",
+        "format-muted": "\uf6a9",
+        "format-icons": { "default": ["\uf026", "\uf027", "\uf028"] },
+        // "on-click": "pavucontrol",
+        "scroll-step": 5,
+        "tooltip": false
+    }
+}

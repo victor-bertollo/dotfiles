@@ -1,0 +1,90 @@
+/* ~/.config/waybar/style.css — Nord (палитра из твоей nord.rasi) */
+
+/* nord0 #2e3440  nord1 #3b4252  nord2 #434c5e  nord3 #4c566a
+   nord4 #d8dee9  nord6 #eceff4
+   nord7 #8fbcbb  nord8 #88c0d0  nord9 #81a1c1  nord10 #5e81ac
+   nord11 #bf616a nord12 #d08770 nord13 #ebcb8b nord14 #a3be8c nord15 #b48ead */
+
+* {
+    font-family: "FiraCode Nerd Font", "Envy Code R", monospace;
+    font-size: 13px;
+    font-weight: 500;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(46, 52, 64, 0.92);   /* nord0 */
+    color: #d8dee9;                              /* nord4 */
+}
+
+/* модули-пилюли на nord1 */
+#workspaces,
+#submap,
+#language,
+#pulseaudio,
+#network,
+#battery,
+#clock {
+    background-color: #3b4252;                   /* nord1 */
+    border-radius: 8px;
+    padding: 0 10px;
+    margin: 4px 2px;
+}
+
+/* заголовок окна — нейтральный, БЕЗ подсветки под приложение */
+#window {
+    color: #d8dee9;                              /* nord4 */
+    background-color: transparent;
+    padding: 0 8px;
+}
+
+/* воркспейсы — единственный яркий акцент: активный на nord8 */
+#workspaces button {
+    color: #4c566a;                              /* nord3 */
+    padding: 0 6px;
+    margin: 3px 1px;
+    border-radius: 6px;
+}
+#workspaces button.active {
+    color: #2e3440;                              /* nord0 */
+    background-color: #88c0d0;                   /* nord8 */
+}
+#workspaces button.urgent {
+    color: #2e3440;
+    background-color: #bf616a;                   /* nord11 */
+}
+#workspaces button:hover {
+    color: #eceff4;                              /* nord6 */
+    background-color: #434c5e;                   /* nord2 */
+}
+
+/* статусы */
+#clock     { color: #8fbcbb; }                   /* nord7 */
+#language  { color: #b48ead; }                   /* nord15 */
+#pulseaudio{ color: #88c0d0; }                   /* nord8 */
+#pulseaudio.muted { color: #ebcb8b; }            /* мут — жёлтый (nord13) */
+
+#network              { color: #a3be8c; }        /* подключён — nord14 */
+#network.disconnected { color: #bf616a; }        /* нет сети — nord11 */
+
+#battery                          { color: #a3be8c; }   /* nord14 */
+#battery.charging                 { color: #a3be8c; }
+#battery.warning:not(.charging)   { color: #ebcb8b; }   /* nord13 */
+#battery.critical:not(.charging)  {
+    color: #bf616a;                                     /* nord11 */
+    animation: blink 1s steps(2) infinite;
+}
+@keyframes blink {
+    to { color: #2e3440; background-color: #bf616a; }
+}
+
+/* submap (режим resize) — заметный */
+#submap {
+    color: #2e3440;                              /* nord0 */
+    background-color: #d08770;                   /* nord12 */
+}
+
+#tray {
+    padding: 0 4px;
+    /* margin: 4px 2px; */
+}

@@ -3,7 +3,7 @@
 opacity = 0.9
 
 [font]
-size = 11.5
+size = 7.75
 normal = { family = "Fira Code Nerd Font", style = "Regular"}
 
 [general]
@@ -14,8 +14,3 @@ import = [
 [terminal]
 
 shell = "/bin/fish"
-
-# [[keyboard.bindings]]
-# key = "Return"
-# mods = "Shift"
-# chars = "\x1b\r"

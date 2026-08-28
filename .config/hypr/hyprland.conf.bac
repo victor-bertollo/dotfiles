@@ -1,0 +1,250 @@
+# ~/.config/hypr/hyprland.conf
+# Перенос с sway/swayfx. Синтаксис hyprlang (классический .conf).
+# ВНИМАНИЕ: если в ~/.config/hypr/ появится hyprland.lua — этот файл будет проигнорирован.
+# Документация: https://wiki.hypr.land  (вики на Lua, но ключи в .conf те же по смыслу)
+
+### МОНИТОРЫ ################################################################
+# monitor = ИМЯ, РАЗРЕШЕНИЕ@ГЦ, ПОЗИЦИЯ, SCALE
+# Позиции — в логических (отмасштабированных) координатах, как в sway.
+# Ультравайд слева (главный), ноут справа, ноут отцентрован по высоте: (1440-1200)/2 = 120.
+monitor = DP-1,  1920x1080@60, 0x0,     1
+monitor = eDP-1, 2880x1800@120,    280x1080, 1.5
+misc {
+    vrr = 2
+}
+# Запасной режим, если внешнего нет (один ноут):
+# monitor = eDP-1, 2880x1800@120, 0x0, 1.5
+# Любой неописанный монитор — авто:
+monitor = , preferred, auto, 1
+
+# Привязка воркспейсов к мониторам (по желанию)
+# workspace = 1, monitor:DP-1
+# workspace = 2, monitor:DP-1
+# workspace = 4, monitor:eDP-1
+
+### ПЕРЕМЕННЫЕ #############################################################
+$mod = SUPER
+$term = alacritty
+
+### АВТОЗАПУСК #############################################################
+exec-once = hyprpm reload -n
+exec-once = waybar
+# exec-once = nm-applet --indicator
+exec-once = awww-daemon
+# exec-once = dex --autostart --environment Hyprland
+exec-once = handy --start-hidden
+# Лок/idle: нативные hypridle+hyprlock (или твои swayidle/swaylock — тоже работают)
+exec-once = hypridle
+exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+
+### ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ ###################################################
+env = XCURSOR_SIZE,24
+env = HYPRCURSOR_SIZE,24
+env = QT_QPA_PLATFORM,wayland;xcb
+env = MOZ_ENABLE_WAYLAND,1
+
+xwayland {
+    force_zero_scaling = true
+}
+
+### ВВОД ###################################################################
+input {
+    kb_layout = us,ru
+    kb_options = grp:alt_shift_toggle
+    follow_mouse = 1
+    touchpad {
+        natural_scroll = true
+        tap-to-click = true
+        disable_while_typing = true
+    }
+}
+
+### ВНЕШНИЙ ВИД ############################################################
+general {
+    gaps_in = 5
+    gaps_out = 10
+    border_size = 2
+    # Catppuccin Mocha mauve -> overlay0
+    col.active_border   = rgba(cba6f7ff)
+    col.inactive_border = rgba(6c7086ff)
+    layout = hy3
+}
+
+decoration {
+    rounding = 8
+
+    # picom inactive-opacity 0.95 -> здесь честная прозрачность по фокусу
+    active_opacity   = 1.0
+    inactive_opacity = 0.95
+
+    blur {
+        enabled = true
+        size = 5
+        passes = 2
+        new_optimizations = true
+    }
+
+    # picom shadows -> нативные тени (новый блочный синтаксис, не drop_shadow)
+    shadow {
+        enabled = true
+        range = 8
+        render_power = 3
+        color = rgba(1a1a1aee)
+    }
+}
+
+### АНИМАЦИИ (ВОТ РАДИ ЧЕГО ВСЁ ЗАТЕВАЛОСЬ) #################################
+animations {
+    enabled = yes
+    bezier = smooth, 0.05, 0.9, 0.1, 1.05
+
+    animation = windows,    1, 5, smooth, popin 80%
+    animation = windowsOut, 1, 5, smooth, popin 80%
+    animation = fade,       1, 5, smooth          # fade окон in/out — твой picom-эффект
+    animation = fadeIn,     1, 5, smooth
+    animation = fadeOut,    1, 5, smooth
+    animation = border,     1, 8, smooth
+    animation = workspaces, 1, 5, smooth, slide
+}
+
+### HY3 (i3/sway-подобная ручная раскладка) ################################
+plugin {
+    hy3 {
+        # отступ группы и поведение схлопывания одиночных узлов
+        node_collapse_policy = 2
+        group_inset = 10
+
+        # autotile НЕ включаем намеренно: он вернул бы авто-сплит по соотношению
+        # сторон (та самая «спираль»). Сплитим вручную через $mod+h / $mod+v.
+        autotile {
+            enable = false
+        }
+
+        # Табы (аналог i3 tabbed). Шрифт — твой Nerd Font.
+        tabs {
+            height = 5
+            padding = 4
+            render_text = true
+            text_font = FiraCode Nerd Font
+            text_height = 11
+            # цвета табов см. в README hy3 (col.active / col.inactive и т.д.),
+            # добавишь по вкусу под Catppuccin/Nord
+        }
+    }
+}
+
+misc {
+    disable_hyprland_logo = true
+    disable_splash_rendering = true
+    # vfr убран из misc в 0.55 (переехал в debug:), поведение по умолчанию и так нужное
+}
+
+### ОКНА / ПРАВИЛА #########################################################
+# Handy (transcription) — плавающее окно
+windowrule = match:class Handy, float on
+# Если индикатор записи не должен забирать фокус — раскомментируй (см. примечание):
+# windowrule = match:class Handy, no_focus on
+
+### БИНДЫ ##################################################################
+bind = $mod, T, exec, $term
+bind = $mod SHIFT, Q, hy3:killactive
+bind = $mod, SPACE, exec, wofi --show drun
+bind = $mod, F, fullscreen, 0
+bind = $mod SHIFT, SPACE, togglefloating
+# Сплиты как i3 (split h/v): задают куда откроется СЛЕДУЮЩЕЕ окно
+bind = $mod, h, hy3:makegroup, h
+bind = $mod, v, hy3:makegroup, v
+# Переключить ориентацию текущей группы (аналог togglesplit)
+bind = $mod, E, hy3:changegroup, opposite
+# Табы (аналог i3 tabbed)
+bind = $mod, W, hy3:changegroup, toggletab
+# Развернуть/свернуть фокусный узел (фишка hy3)
+bind = $mod, P, hy3:expand, expand
+
+# Перезагрузка конфига / выход
+bind = $mod SHIFT, C, exec, hyprctl reload
+bind = $mod SHIFT, E, exec, hyprctl dispatch exit
+
+# Фокус (j=left k=down l=up ;=right) — hy3:movefocus ходит по дереву как i3
+bind = $mod, J, hy3:movefocus, l
+bind = $mod, K, hy3:movefocus, d
+bind = $mod, L, hy3:movefocus, u
+bind = $mod, semicolon, hy3:movefocus, r
+bind = $mod, Left,  hy3:movefocus, l
+bind = $mod, Down,  hy3:movefocus, d
+bind = $mod, Up,    hy3:movefocus, u
+bind = $mod, Right, hy3:movefocus, r
+
+# Перемещение окна по дереву
+bind = $mod SHIFT, J, hy3:movewindow, l
+bind = $mod SHIFT, K, hy3:movewindow, d
+bind = $mod SHIFT, L, hy3:movewindow, u
+bind = $mod SHIFT, semicolon, hy3:movewindow, r
+bind = $mod SHIFT, Left,  hy3:movewindow, l
+bind = $mod SHIFT, Down,  hy3:movewindow, d
+bind = $mod SHIFT, Up,    hy3:movewindow, u
+bind = $mod SHIFT, Right, hy3:movewindow, r
+
+# Воркспейсы
+bind = $mod, 1, workspace, 1
+bind = $mod, 2, workspace, 2
+bind = $mod, 3, workspace, 3
+bind = $mod, 4, workspace, 4
+bind = $mod, 5, workspace, 5
+bind = $mod, 6, workspace, 6
+bind = $mod, 7, workspace, 7
+bind = $mod, 8, workspace, 8
+bind = $mod, 9, workspace, 9
+bind = $mod, 0, workspace, 10
+
+bind = $mod SHIFT, 1, hy3:movetoworkspace, 1
+bind = $mod SHIFT, 2, hy3:movetoworkspace, 2
+bind = $mod SHIFT, 3, hy3:movetoworkspace, 3
+bind = $mod SHIFT, 4, hy3:movetoworkspace, 4
+bind = $mod SHIFT, 5, hy3:movetoworkspace, 5
+bind = $mod SHIFT, 6, hy3:movetoworkspace, 6
+bind = $mod SHIFT, 7, hy3:movetoworkspace, 7
+bind = $mod SHIFT, 8, hy3:movetoworkspace, 8
+bind = $mod SHIFT, 9, hy3:movetoworkspace, 9
+bind = $mod SHIFT, 0, hy3:movetoworkspace, 10
+
+# Перетаскивание/ресайз мышью
+bindm = $mod, mouse:272, movewindow
+bindm = $mod, mouse:273, resizewindow
+
+# Обои (пикер) и handy-тоггл
+bind = $mod SHIFT, W, exec, ~/.config/hypr/wallpaper-picker.sh
+bind = $mod, O, exec, pkill -USR2 -x handy
+
+# Скриншоты (grim/slurp/satty — как в sway)
+bind = , Print, exec, grim - | wl-copy
+bind = $mod SHIFT, S, exec, grim -g "$(slurp)" - | satty --filename - --copy-command wl-copy
+
+# Громкость/яркость/медиа (l=locked работает на лок-экране, e=repeating)
+bindel = , XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindel = , XF86AudioLowerVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindl  = , XF86AudioMute,        exec, pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindl  = , XF86AudioMicMute,     exec, pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindel = , XF86MonBrightnessUp,   exec, brightnessctl s 10%+
+bindel = , XF86MonBrightnessDown, exec, brightnessctl s 10%-
+bindl  = , XF86AudioPlay,  exec, playerctl play-pause
+bindl  = , XF86AudioNext,  exec, playerctl next
+bindl  = , XF86AudioPrev,  exec, playerctl previous
+
+# Закрытие крышки
+bindl = , switch:Lid Switch, exec, hyprctl dispatch dpms toggle eDP-1
+
+### РЕЖИМ RESIZE (submap — аналог mode "resize" в i3) ######################
+bind = $mod, R, submap, resize
+submap = resize
+binde = , J, resizeactive, -10 0
+binde = , semicolon, resizeactive, 10 0
+binde = , K, resizeactive, 0 10
+binde = , L, resizeactive, 0 -10
+binde = , Left,  resizeactive, -10 0
+binde = , Right, resizeactive, 10 0
+binde = , Down,  resizeactive, 0 10
+binde = , Up,    resizeactive, 0 -10
+bind = , Return, submap, reset
+bind = , Escape, submap, reset
+submap = reset

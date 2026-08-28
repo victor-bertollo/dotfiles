@@ -1,0 +1,13 @@
+# ~/.config/wofi/config
+mode=drun
+prompt=>
+allow_images=true
+image_size=24
+columns=2
+lines=6
+width=45%
+location=center
+insensitive=true
+no_actions=true
+hide_scroll=true
+gtk_dark=true

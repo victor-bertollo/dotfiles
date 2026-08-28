@@ -1,0 +1,7 @@
+[user]
+	email = bertollo.victor@gmail.com
+	name = Victor Bertollo
+[credential]
+	helper = store
+[init]
+	defaultBranch = master

@@ -1,0 +1,61 @@
+/* ~/.config/wofi/style.css — Nord, минимализм как fuzzel/твой rofi */
+
+/* nord0 #2e3440  nord1 #3b4252  nord3 #4c566a  nord4 #d8dee9
+   nord6 #eceff4  nord7 #8fbcbb  nord8 #88c0d0  nord9 #81a1c1  nord10 #5e81ac */
+
+* {
+    font-family: "FiraCode Nerd Font", "Envy Code R", monospace;
+    font-size: 14px;
+}
+
+window {
+    background-color: rgba(46, 52, 64, 0.95);    /* nord0, как rgba(...,0.9) в rofi */
+    border: 2px solid #5e81ac;                    /* nord10 — рамка как в nord.rasi */
+    border-radius: 6px;
+}
+
+#outer-box {
+    margin: 0;
+    padding: 12px;
+}
+
+/* строка ввода */
+#input {
+    background-color: #3b4252;                    /* nord1 */
+    color: #eceff4;                               /* nord6 */
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+}
+#input image { color: #81a1c1; }                  /* prompt — nord9 */
+
+#scroll { margin: 0; }
+
+/* сетка элементов */
+#inner-box {
+    background-color: transparent;
+}
+
+#entry {
+    padding: 8px;
+    margin: 2px;
+    border-radius: 6px;
+}
+
+#text {
+    color: #d8dee9;                               /* nord4 */
+    margin-left: 8px;
+}
+
+/* выделение — nord7, как selected в твоём rofi */
+#entry:selected {
+    background-color: #8fbcbb;                    /* nord7 */
+}
+#entry:selected #text {
+    color: #2e3440;                               /* nord0 */
+}
+
+#entry image {
+    -gtk-icon-transform: none;
+}
