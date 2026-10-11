@@ -2,6 +2,7 @@
 __pycache__
 .gradle
 build
-bin
+# bin
 node_modules
 .go*/
+target/

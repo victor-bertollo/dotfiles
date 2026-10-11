@@ -1,4 +1,19 @@
 [[language]]
+name = "rust"
+auto-format = true
+
+[language-server.rust-analyzer.config]
+checkOnSave = { command = "clippy" }
+cargo.allFeatures = true
+# inlayHints.bindingModeHints.enable = true
+# inlayHints.chainingHints.enable = true
+# inlayHints.closingBraceHints.enable = true
+# inlayHints.closureReturnTypeHints.enable = "always"
+# inlayHints.lifetimeElaborationHints.enable = true
+# inlayHints.parameterHints.enable = true
+# inlayHints.typeHints.enable = true
+
+[[language]]
 name = "python"
 auto-format = true
 language-servers = [
@@ -40,6 +55,7 @@ command = ["golangci-lint", "run", "--output.json.path=stdout", "--show-stats=fa
 [[language]]
 name = "c"
 auto-format = true
+roots = ["compile_commands.json", "Makefile", "CMakeLists.txt"]
 indent = { tab-width = 4, unit = "    " }
 
 [[language]]

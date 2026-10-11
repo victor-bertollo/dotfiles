@@ -11,5 +11,9 @@ git-ignore = false
 C-h = ":buffer-previous"
 C-l = ":buffer-next"
 
+[keys.normal.space]
+f = "file_picker_in_current_directory"
+F = "file_picker"
+
 [keys.select]
 l ={l= ":pipe ~/.config/scripts/ll_helix.sh"}

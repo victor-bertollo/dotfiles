@@ -33,6 +33,7 @@ text/calendar=userapp-Thunderbird-30YTS3.desktop
 application/x-extension-ics=userapp-Thunderbird-30YTS3.desktop
 x-scheme-handler/net.thunderbird=userapp-Thunderbird-MD9SS3.desktop
 x-scheme-handler/mihomo=koala-clash.desktop
+application/pdf=zen.desktop
 
 [Added Associations]
 x-scheme-handler/tonsite=org.telegram.desktop.desktop;

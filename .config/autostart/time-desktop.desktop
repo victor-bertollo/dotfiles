@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=time-desktop
+Comment=time-desktopstartup script
+Exec=/opt/time-desktop/time-desktop
+StartupNotify=false
+Terminal=false

@@ -1,0 +1,10 @@
+onboarding = false
+[theme]
+name = "nord"
+auto_switch = false
+
+[ui]
+agent_panel_sort = "spaces"
+
+[ui.toast]
+delivery = "system"
