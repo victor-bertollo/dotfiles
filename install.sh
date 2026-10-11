@@ -29,18 +29,6 @@ grep -qi nvidia <<<"$GPU" && HW+=(nvidia-open nvidia-utils lib32-nvidia-utils)
 mapfile -t NATIVE < pkglist/native.txt
 sudo pacman -S --needed "${HW[@]}" "${NATIVE[@]}"
 
-# --- yay ---
-if ! command -v yay >/dev/null; then
-    tmp=$(mktemp -d)
-    git clone https://aur.archlinux.org/yay-bin.git "$tmp/yay-bin"
-    (cd "$tmp/yay-bin" && makepkg -si --noconfirm)
-    rm -rf "$tmp"
-fi
-
-# --- AUR ---
-mapfile -t AUR < pkglist/aur.txt
-yay -S --needed "${AUR[@]}" || echo "!!! часть AUR-пакетов не собралась, см. вывод выше"
-
 # --- toolchains ---
 rustup default stable
 go install golang.org/x/tools/cmd/goimports@latest
@@ -53,7 +41,7 @@ cargo install asm-lsp protols || true
 # --- dotfiles ---
 rsync -a \
     --exclude .git --exclude .gitignore --exclude pkglist --exclude etc \
-    --exclude install.sh \
+    --exclude install.sh --exclude install-aur.sh \
     "$REPO"/ "$HOME"/
 xdg-user-dirs-update
 
@@ -70,17 +58,16 @@ done
 # --- сервисы ---
 sudo systemctl enable NetworkManager bluetooth tlp docker.socket tailscaled
 sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket  # требование tlp
-sudo netbird service install 2>/dev/null || true
-sudo systemctl enable netbird 2>/dev/null || true
 
 cat <<'EOF'
 
 Готово. Дальше:
-  1. reboot, логин в tty1 -> fish сам запустит Hyprland через uwsm
-  2. внутри Hyprland:
+  1. ./install-aur.sh (AUR-пакеты, можно под VPN)
+  2. reboot, логин в tty1 -> fish сам запустит Hyprland через uwsm
+  3. внутри Hyprland:
        hyprpm update
        hyprpm add https://github.com/kociap/hy3
        hyprpm enable hy3
        hyprctl reload
-  3. поправить мониторы в ~/.config/hypr/hyprland.lua (hl.monitor)
+  4. поправить мониторы в ~/.config/hypr/hyprland.lua (hl.monitor)
 EOF
