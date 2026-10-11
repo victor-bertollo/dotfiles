@@ -83,8 +83,8 @@ mold
 mtr
 nano
 ncdu
-network-manager-applet
 networkmanager
+network-manager-applet
 nmap
 noto-fonts
 noto-fonts-cjk
@@ -150,8 +150,8 @@ ttf-dejavu
 ttf-dejavu-nerd
 ttf-droid
 ttf-fira-code
-ttf-fira-mono
 ttf-firacode-nerd
+ttf-fira-mono
 ttf-liberation
 ttf-roboto
 ttf-ubuntu-font-family
@@ -180,6 +180,7 @@ woff2-font-awesome
 wofi
 wtype
 xca
+xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
 xdg-user-dirs
 xdo

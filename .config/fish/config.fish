@@ -16,3 +16,8 @@ starship init fish | source
 set -gx ZVM_INSTALL "$HOME/.zvm/self"
 set -gx PATH $PATH "$HOME/.zvm/bin"
 set -gx PATH $PATH "$ZVM_INSTALL/"
+
+set -gx EDITOR helix
+set -gx TERMINAL alacritty
+set -gx CMAKE_EXPORT_COMPILE_COMMANDS ON
+fish_add_path ~/.cargo/bin ~/go/bin ~/.local/bin
