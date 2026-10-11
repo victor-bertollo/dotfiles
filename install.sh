@@ -14,7 +14,7 @@ sudo sed -i \
     -e 's/^#\?ParallelDownloads.*/ParallelDownloads = 10/' \
     -e '/^#\[multilib\]/,/^#Include/ s/^#//' \
     /etc/pacman.conf
-sudo pacman -Syu --noconfirm
+sudo pacman -Syu --noconfirm --needed pciutils
 
 # --- железо: микрокод и vulkan-драйвер ---
 HW=()
